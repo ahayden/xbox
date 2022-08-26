@@ -20,7 +20,7 @@ RUN apt-get update -qq -y && apt-get install --no-install-recommends -qq -y \
         apt-transport-https \
         ca-certificates \
         sudo \
-        locale-gen \
+        locales \
     && update-ca-certificates \
     && apt-get -y autoclean \
     && apt-get -y autoremove \

@@ -1,16 +1,15 @@
-name: base
+name: graphical
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: 
+      - 'headless' 
+    types:
+      - completed
 
 jobs:
   build:
-    if: >
-      !contains(github.event.head_commit.message, 'skip-ci') &&
-      !contains(github.event.pull_request.title, 'skip-ci')
-    name: base
+    if: ${{github.event.workflow_run.conclusion == 'success'}}
     runs-on: ubuntu-latest
     steps:
       -
@@ -53,7 +52,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile.${{github.workflow}}
-          platforms: linux/amd64, linux/arm64, linux/arm/v6, linux/arm/v7
+          platforms: linux/amd64, linux/arm64, linux/arm/v6, linux/arm/v7 
           build-args: |
             container_user=${{steps.prep.outputs.container_user}}
             source_repo=${{steps.prep.outputs.source_repo}}

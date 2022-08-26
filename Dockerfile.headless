@@ -1,0 +1,39 @@
+ARG source_repo
+FROM ${source_repo}:base
+
+ARG container_user
+RUN test -n "${container_user}"
+
+USER root
+
+# Enable shell pipefail option
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+WORKDIR /tmp
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update -yqq && apt-get install --no-install-recommends -yqq \
+-o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
+        kali-linux-headless \
+    && update-ca-certificates \
+    && apt-get -y autoclean \
+    && apt-get -y autoremove \
+    && rm -rf /var/lib/apt/lists/*
+
+# set links to persistent user environment
+RUN su - ${container_user} -c "cd && \
+    mkdir -p persist/.ssh && ln -s persist/.ssh . ; \
+    touch persist/.ssh/authorized_keys ; \
+    mkdir -p persist/.gnupg && ln -s persist/.gnupg . ; \
+    mkdir -p persist/.config && ln -s persist/.config . ; \
+    mkdir -p persist/.aws && ln -s persist/.aws ."
+
+WORKDIR /home/${container_user}
+
+USER ${container_user}
+
+RUN echo 'eval `ssh-agent -s`; [ -f ~/.ssh/github ] && ssh-add ~/.ssh/github' >> .bashrc ; \
+    echo 'export GPG_TTY=$(tty)' >> .bashrc
+
+CMD ["/bin/bash","-l"]

@@ -1,0 +1,49 @@
+ARG source_repo
+FROM ${source_repo}:headless
+
+ARG container_user
+RUN test -n "${container_user}"
+
+USER root
+
+# Enable shell pipefail option
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+WORKDIR /tmp
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update -qq -y && apt-get install -qq -y \
+        xvfb x11vnc \
+    && apt-get -y autoclean \
+    && apt-get -y autoremove \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update -qq -y && apt-get install -qq -y \
+        mate-desktop-environment mate-tweak \
+    && apt-get -y autoclean \
+    && apt-get -y autoremove \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update -yqq && apt-get install --no-install-recommends -yqq \
+-o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
+        kali-linux-large \
+    && update-ca-certificates \
+    && apt-get -y autoclean \
+    && apt-get -y autoremove \
+    && rm -rf /var/lib/apt/lists/*
+
+ADD xinit.sh /usr/local/xinit.sh
+
+RUN chmod 755 /usr/local/xinit.sh
+
+ENV DISPLAY :10
+
+WORKDIR /home/${container_user}
+
+USER ${container_user}
+
+EXPOSE 5910
+
+ENTRYPOINT ["/usr/local/xinit.sh"]
+

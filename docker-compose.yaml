@@ -1,12 +1,60 @@
 version: "3.8"
 
 services:
-  ghcr-template:
-    image: ghcr.io/ahayden/ghcr-template:base
+  base:
+    image: ghcr.io/ahayden/xbox:base
     hostname: base
+    privileged: true
+    network_mode: "host"
     environment:
       TERM: "xterm-color"
+      LANG: "en_US.utf-8"
+      LC_ALL: "en_US.utf-8"
     extra_hosts:
       - "base:127.0.0.1"
     container_name: base
+    volumes:
+      - ~/src:/home/$USER/src
+      - ~/.config/git:/home/$USER/.config/git
+      - ~/.vimrc:/home/$USER/.vimrc
+      - home-persist:/home/$USER/persist
 
+  headless:
+    image: ghcr.io/ahayden/xbox:headless
+    hostname: shell
+    environment:
+      TERM: "xterm-color"
+      LANG: "en_US.utf-8"
+      LC_ALL: "en_US.utf-8"
+    extra_hosts:
+      - "shell:127.0.0.1"
+    ports:
+      - "2222:22"
+    container_name: headless
+    volumes:
+      - ~/src:/home/$USER/src
+      - ~/.config/git:/home/$USER/.config/git
+      - ~/.vimrc:/home/$USER/.vimrc
+      - home-persist:/home/$USER/persist
+    command: sudo /usr/sbin/sshd -D -e
+ # or, `docker compose run tools bash`
+
+  graphical:
+    image: ghcr.io/ahayden/xbox:graphical
+    hostname: xbox
+    environment:
+      TERM: "xterm-color"
+      LANG: "en_US.utf-8"
+      LC_ALL: "en_US.utf-8"
+      RESOLUTION: ${RESOLUTION:-2048x1280x24}
+    extra_hosts:
+      - "xbox:127.0.0.1"
+    container_name: graphical
+    volumes:
+      - ~/src:/home/$USER/src
+      - ~/.config/git:/home/$USER/.config/git
+      - ~/.vimrc:/home/$USER/.vimrc
+      - home-persist:/home/$USER/persist
+
+volumes:                                                                        
+  home-persist:

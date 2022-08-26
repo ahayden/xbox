@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  ghcr-template:
+    image: ghcr.io/ahayden/ghcr-template:base
+    hostname: base
+    environment:
+      TERM: "xterm-color"
+    extra_hosts:
+      - "base:127.0.0.1"
+    container_name: base
+

@@ -19,15 +19,9 @@ RUN apt-get update -qq -y && apt-get install -qq -y \
     && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update -qq -y && apt-get install -qq -y \
-        mate-desktop-environment mate-tweak \
-    && apt-get -y autoclean \
-    && apt-get -y autoremove \
-    && rm -rf /var/lib/apt/lists/*
-
 RUN apt-get update -yqq && apt-get install --no-install-recommends -yqq \
 -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
-        kali-linux-large \
+        kali-desktop-mate \
     && update-ca-certificates \
     && apt-get -y autoclean \
     && apt-get -y autoremove \

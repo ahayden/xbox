@@ -22,6 +22,8 @@ services:
   headless:
     image: ghcr.io/ahayden/xbox:headless
     hostname: shell
+    privileged: true
+    network_mode: "host"
     environment:
       TERM: "xterm-color"
       LANG: "en_US.utf-8"
@@ -42,6 +44,8 @@ services:
   graphical:
     image: ghcr.io/ahayden/xbox:graphical
     hostname: xbox
+    privileged: true
+    network_mode: "host"
     environment:
       TERM: "xterm-color"
       LANG: "en_US.utf-8"

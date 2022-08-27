@@ -52,7 +52,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile.${{github.workflow}}
-          platforms: linux/amd64, linux/arm64, linux/arm/v6, linux/arm/v7 
+          platforms: linux/amd64, linux/arm64
           build-args: |
             container_user=${{steps.prep.outputs.container_user}}
             source_repo=${{steps.prep.outputs.source_repo}}

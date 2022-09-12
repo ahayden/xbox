@@ -22,8 +22,6 @@ services:
   headless:
     image: ghcr.io/ahayden/xbox:headless
     hostname: shell
-    privileged: true
-    network_mode: "host"
     environment:
       TERM: "xterm-color"
       LANG: "en_US.utf-8"
@@ -31,21 +29,19 @@ services:
     extra_hosts:
       - "shell:127.0.0.1"
     ports:
-      - "2222:22"
+      - "2224:22"
     container_name: headless
     volumes:
       - ~/src:/home/$USER/src
       - ~/.config/git:/home/$USER/.config/git
       - ~/.vimrc:/home/$USER/.vimrc
       - home-persist:/home/$USER/persist
-    command: sudo /usr/sbin/sshd -D -e
- # or, `docker compose run tools bash`
+    command: sudo service ssh start -D
+ # or, `docker compose run headless bash`
 
   graphical:
     image: ghcr.io/ahayden/xbox:graphical
     hostname: xbox
-    privileged: true
-    network_mode: "host"
     environment:
       TERM: "xterm-color"
       LANG: "en_US.utf-8"

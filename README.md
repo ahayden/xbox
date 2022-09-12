@@ -41,10 +41,10 @@ sudo apt-get update
 5. Append a host definition like this to `~/.ssh/config` on your
    container runner 
    ```
-   Host xbox
+   Host kaliproxy
      HostName localhost
-     Port 2222
-     LocalForward 5910 xbox:5910
+     Port 2224
+     LocalForward 5910 graphical:5910
      User ${your_github_username}
      IdentityFile ~/.ssh/xbox
    ```

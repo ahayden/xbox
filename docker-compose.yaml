@@ -4,8 +4,6 @@ services:
   base:
     image: ghcr.io/ahayden/xbox:base
     hostname: base
-    privileged: true
-    network_mode: "host"
     environment:
       TERM: "xterm-color"
       LANG: "en_US.utf-8"
@@ -29,6 +27,7 @@ services:
     extra_hosts:
       - "shell:127.0.0.1"
     ports:
+      - "22"
       - "2224:22"
     container_name: headless
     volumes:

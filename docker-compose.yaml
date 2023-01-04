@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   base:
-    image: ghcr.io/ahayden/xbox:base
+    image: ghcr.io/${USER}/xbox:base
     hostname: base
     environment:
       TERM: "xterm-color"
@@ -12,13 +12,13 @@ services:
       - "base:127.0.0.1"
     container_name: base
     volumes:
-      - ~/src:/home/$USER/src
-      - ~/.config/git:/home/$USER/.config/git
-      - ~/.vimrc:/home/$USER/.vimrc
-      - home-persist:/home/$USER/persist
+      - ~/src:/home/${USER}/src
+      - ~/.config/git:/home/${USER}/.config/git
+      - ~/.vimrc:/home/${USER}/.vimrc
+      - home-persist:/home/${USER}/persist
 
   headless:
-    image: ghcr.io/ahayden/xbox:headless
+    image: ghcr.io/${USER}/xbox:headless
     hostname: shell
     environment:
       TERM: "xterm-color"
@@ -31,15 +31,15 @@ services:
       - "2224:22"
     container_name: headless
     volumes:
-      - ~/src:/home/$USER/src
-      - ~/.config/git:/home/$USER/.config/git
-      - ~/.vimrc:/home/$USER/.vimrc
-      - home-persist:/home/$USER/persist
+      - ~/src:/home/${USER}/src
+      - ~/.config/git:/home/${USER}/.config/git
+      - ~/.vimrc:/home/${USER}/.vimrc
+      - home-persist:/home/${USER}/persist
     command: sudo service ssh start -D
  # or, `docker compose run headless bash`
 
   graphical:
-    image: ghcr.io/ahayden/xbox:graphical
+    image: ghcr.io/${USER}/xbox:graphical
     hostname: xbox
     environment:
       TERM: "xterm-color"
@@ -50,10 +50,10 @@ services:
       - "xbox:127.0.0.1"
     container_name: graphical
     volumes:
-      - ~/src:/home/$USER/src
-      - ~/.config/git:/home/$USER/.config/git
-      - ~/.vimrc:/home/$USER/.vimrc
-      - home-persist:/home/$USER/persist
+      - ~/src:/home/${USER}/src
+      - ~/.config/git:/home/${USER}/.config/git
+      - ~/.vimrc:/home/${USER}/.vimrc
+      - home-persist:/home/${USER}/persist
 
 volumes:                                                                        
   home-persist:

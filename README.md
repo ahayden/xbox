@@ -65,6 +65,7 @@ sudo apt-get update
    compose file:
    ```
    $ cat .env 
+     USER=ahayden
      RESOLUTION=2560x1600x24
    ```
 2. HiDP works

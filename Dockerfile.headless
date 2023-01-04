@@ -15,7 +15,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -yqq && apt-get install --no-install-recommends -yqq \
 -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
-        kali-linux-headless \
+        kali-linux-headless suricata \
     && update-ca-certificates \
     && apt-get -y autoclean \
     && apt-get -y autoremove \

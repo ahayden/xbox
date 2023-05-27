@@ -21,7 +21,7 @@ RUN apt-get update -qq -y && apt-get install -qq -y \
 
 RUN apt-get update -yqq && apt-get install --no-install-recommends -yqq \
 -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
-        kali-desktop-mate \
+        kali-desktop-mate jadx \
     && update-ca-certificates \
     && apt-get -y autoclean \
     && apt-get -y autoremove \
